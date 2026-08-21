@@ -15,19 +15,19 @@ function Logo({
   return (
     <Link
       className={cn(
-        "font-extrabold flex items-center gap-2.5 transition-transform hover:scale-[1.02] duration-150",
+        "font-extrabold flex items-center gap-2.5 transition-opacity hover:opacity-90 duration-150 select-none",
         fontSize === "xl" ? "text-xl" : "text-2xl"
       )}
       href="/"
     >
-      <div className="rounded-xl bg-gradient-to-tr from-primary to-orange-400 p-2 shadow-sm shadow-primary/30 flex items-center justify-center">
-        <ZapIcon size={iconSize} className="stroke-white fill-white" />
+      <div className="rounded-lg bg-foreground text-background p-1.5 flex items-center justify-center shadow-sm">
+        <ZapIcon size={iconSize} className="stroke-background fill-background" />
       </div>
       <div className="flex items-center tracking-tight font-sans">
-        <span className="text-primary font-black">
+        <span className="text-foreground font-black">
           Scrape
         </span>
-        <span className="text-foreground font-extrabold ml-0.5">Flow</span>
+        <span className="text-muted-foreground font-light ml-0.5">Flow</span>
       </div>
     </Link>
   );
