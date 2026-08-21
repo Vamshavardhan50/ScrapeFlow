@@ -29,13 +29,15 @@ function TaskMenu() {
       >
         <AccordionItem value="interactions">
           <AccordionTrigger className="font-bold">
-            User Interactions
+            User Interactions & Browser
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
+            <TaskMenuButton taskType={TaskType.NAVIGATE_URL} />
             <TaskMenuButton taskType={TaskType.FILL_INPUT} />
             <TaskMenuButton taskType={TaskType.CLICK_ELEMENT} />
-            <TaskMenuButton taskType={TaskType.NAVIGATE_URL} />
             <TaskMenuButton taskType={TaskType.SCROLL_TO_ELEMENT} />
+            <TaskMenuButton taskType={TaskType.TAKE_SCREENSHOT} />
+            <TaskMenuButton taskType={TaskType.EVALUATE_SCRIPT} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="extraction">
@@ -45,12 +47,13 @@ function TaskMenu() {
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuButton taskType={TaskType.PAGE_TO_HTML} />
             <TaskMenuButton taskType={TaskType.EXTRACT_TEXT_FROM_ELEMENT} />
+            <TaskMenuButton taskType={TaskType.EXTRACT_LIST_ELEMENTS} />
             <TaskMenuButton taskType={TaskType.EXTRACT_DATA_WITH_AI} />
           </AccordionContent>
         </AccordionItem>
         <AccordionItem value="storage">
           <AccordionTrigger className="font-bold">
-            Data Storage
+            Data Processing & JSON
           </AccordionTrigger>
           <AccordionContent className="flex flex-col gap-1">
             <TaskMenuButton taskType={TaskType.READ_PROPERTY_FROM_JSON} />

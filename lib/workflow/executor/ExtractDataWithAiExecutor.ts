@@ -83,7 +83,15 @@ export async function ExtractDataWithAiExecutor(
       return false;
     }
 
-    enviornment.setOutput("Extracted Data", JSON.stringify(result));
+    // Clean markdown code fence if present
+    let cleanedResult = result.trim();
+    if (cleanedResult.startsWith("```json")) {
+      cleanedResult = cleanedResult.replace(/^```json\s*/, "").replace(/\s*```$/, "");
+    } else if (cleanedResult.startsWith("```")) {
+      cleanedResult = cleanedResult.replace(/^```\s*/, "").replace(/\s*```$/, "");
+    }
+
+    enviornment.setOutput("Extracted Data", cleanedResult);
 
     return true;
   } catch (error: any) {

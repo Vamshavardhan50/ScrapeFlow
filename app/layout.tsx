@@ -5,14 +5,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "Flow Scrape",
-  description: "Build your own flow and scrape data with ease",
-  // openGraph: {
-  //   images: `${process.env.APP_URL}/og-image.png`,
-  // },
+  title: "ScrapeFlow — Visual Web Scraping & Automation Platform",
+  description: "Create, automate, schedule, and execute AI-powered web scraping workflows visually.",
 };
 
 export default function RootLayout({
@@ -26,14 +23,14 @@ export default function RootLayout({
       appearance={{
         elements: {
           formButtonPrimary:
-            "bg-primary hover:bg-primary/90 text-sm !shadow-none",
+            "bg-primary hover:bg-primary/90 text-sm !shadow-none font-medium",
         },
       }}
     >
-      <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+      <html lang="en" suppressHydrationWarning className={inter.variable}>
+        <body className={`${inter.className} antialiased min-h-screen selection:bg-primary selection:text-white`}>
           <AppProviders>{children}</AppProviders>
-        <Toaster richColors />
+          <Toaster richColors position="top-right" />
         </body>
       </html>
     </ClerkProvider>

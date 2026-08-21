@@ -1,5 +1,6 @@
 import { TaskType, WorkflowTask } from "@/lib/types";
 import { ExtractTextFromElementTask } from "./ExtractTextFromElement";
+import { ExtractListElementsTask } from "./ExtractListElements";
 import { LaunchBrowserTask } from "./LaunchBrowser";
 import { PageToHtmlTask } from "./PageToHtml";
 import { FillInputTask } from "./FillInput";
@@ -11,6 +12,8 @@ import { ReadPropertyFromJsonTask } from "./ReadPropertyFromJson";
 import { AddPropertyToJsonTask } from "./AddPropertyToJson";
 import { NavigateUrlTask } from "./NavigateUrl";
 import { ScrollToElementTask } from "./ScrollToElement";
+import { TakeScreenshotTask } from "./TakeScreenshot";
+import { EvaluateScriptTask } from "./EvaluateScript";
 
 type Registry = {
   [key in TaskType]: WorkflowTask & { type: key };
@@ -20,6 +23,7 @@ export const TaskRegistry: Registry = {
   LAUNCH_BROWSER: LaunchBrowserTask,
   PAGE_TO_HTML: PageToHtmlTask,
   EXTRACT_TEXT_FROM_ELEMENT: ExtractTextFromElementTask,
+  EXTRACT_LIST_ELEMENTS: ExtractListElementsTask,
   FILL_INPUT: FillInputTask,
   CLICK_ELEMENT: ClickElementTask,
   WAIT_FOR_ELEMENT: WaitForElementTask,
@@ -29,4 +33,6 @@ export const TaskRegistry: Registry = {
   ADD_PROPERTY_TO_JSON: AddPropertyToJsonTask,
   NAVIGATE_URL: NavigateUrlTask,
   SCROLL_TO_ELEMENT: ScrollToElementTask,
+  TAKE_SCREENSHOT: TakeScreenshotTask,
+  EVALUATE_SCRIPT: EvaluateScriptTask,
 };

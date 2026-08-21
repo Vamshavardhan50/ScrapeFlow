@@ -20,7 +20,7 @@ export async function AddPropertyToJsonExecutor(
     const propertyValue = enviornment.getInput("Property value");
 
     if (!propertyValue) {
-      enviornment.log.error("input -> Propety Value is not defined");
+      enviornment.log.error("input -> Property Value is not defined");
       return false;
     }
 
