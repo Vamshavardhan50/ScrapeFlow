@@ -22,19 +22,10 @@ export async function getWorkflowsForUser() {
   if (!userId) {
     throw new Error("Unauthenticated");
   }
-  const workflows = await prisma.workflow.findMany({
+  return prisma.workflow.findMany({
     where: { userId },
     orderBy: { createdAt: "asc" },
   });
-
-  // Convert Date objects to ISO strings for serialization
-  return workflows.map((workflow) => ({
-    ...workflow,
-    createdAt: workflow.createdAt.toISOString(),
-    updatedAt: workflow.updatedAt.toISOString(),
-    lastRunAt: workflow.lastRunAt?.toISOString() || null,
-    nextRunAt: workflow.nextRunAt?.toISOString() || null,
-  }));
 }
 
 export async function createWorkflow(form: createWorkflowShemaType) {
@@ -135,7 +126,7 @@ export async function getWorkflowExecutionWithPhases(executionId: string) {
     throw new Error("Unauthenticated");
   }
 
-  const execution = await prisma.workflowExecution.findUnique({
+  return prisma.workflowExecution.findUnique({
     where: { id: executionId, userId },
     include: {
       phases: {
@@ -145,21 +136,6 @@ export async function getWorkflowExecutionWithPhases(executionId: string) {
       },
     },
   });
-
-  if (!execution) return null;
-
-  // Convert Date objects to ISO strings for serialization
-  return {
-    ...execution,
-    createdAt: execution.createdAt.toISOString(),
-    startedAt: execution.startedAt?.toISOString() || null,
-    completedAt: execution.completedAt?.toISOString() || null,
-    phases: execution.phases.map((phase) => ({
-      ...phase,
-      startedAt: phase.startedAt?.toISOString() || null,
-      completedAt: phase.completedAt?.toISOString() || null,
-    })),
-  };
 }
 
 export async function getWorkflowPhaseDetails(phaseId: string) {
@@ -169,7 +145,7 @@ export async function getWorkflowPhaseDetails(phaseId: string) {
     throw new Error("Unauthenticated");
   }
 
-  const phase = await prisma.executionPhase.findUnique({
+  return prisma.executionPhase.findUnique({
     where: {
       id: phaseId,
       execution: {
@@ -184,19 +160,6 @@ export async function getWorkflowPhaseDetails(phaseId: string) {
       },
     },
   });
-
-  if (!phase) return null;
-
-  // Convert Date objects to ISO strings for serialization
-  return {
-    ...phase,
-    startedAt: phase.startedAt?.toISOString() || null,
-    completedAt: phase.completedAt?.toISOString() || null,
-    logs: phase.logs.map((log) => ({
-      ...log,
-      timestamp: log.timestamp.toISOString(),
-    })),
-  };
 }
 
 export async function getWorkflowExecutions(workflowId: string) {
@@ -206,7 +169,7 @@ export async function getWorkflowExecutions(workflowId: string) {
     throw new Error("Unauthenticated");
   }
 
-  const executions = await prisma.workflowExecution.findMany({
+  return prisma.workflowExecution.findMany({
     where: {
       workflowId,
       userId,
@@ -215,14 +178,6 @@ export async function getWorkflowExecutions(workflowId: string) {
       createdAt: "asc",
     },
   });
-
-  // Convert Date objects to ISO strings for serialization
-  return executions.map((execution) => ({
-    ...execution,
-    createdAt: execution.createdAt.toISOString(),
-    startedAt: execution.startedAt?.toISOString() || null,
-    completedAt: execution.completedAt?.toISOString() || null,
-  }));
 }
 
 export async function publishWorkflow({

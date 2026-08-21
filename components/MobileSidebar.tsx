@@ -19,8 +19,8 @@ function MobileSidebar() {
   //   ) || routes[0];
 
   return (
-    <div className="block border-separate bg-background md:hidden">
-      <nav className="flex container items-center justify-between px-8">
+    <div className="block border-separate bg-background md:hidden mr-2">
+      <nav className="flex items-center justify-between">
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon">
@@ -28,7 +28,7 @@ function MobileSidebar() {
             </Button>
           </SheetTrigger>
           <SheetContent
-            className="w-[400px] sm:w-[540px] space-y-4"
+            className="w-[85vw] max-w-[380px] sm:w-[400px] space-y-4"
             side="left"
           >
             <Logo />

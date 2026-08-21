@@ -38,11 +38,11 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
   const isDraft = workflow.status === WorkflowStatus.DRAFT;
   return (
     <Card className="border border-separate shadow-sm rounded-lg overflow-hidden hover:shadow-md dark:shadow-primary/30 group/card">
-      <CardContent className="p-4 flex items-center justify-between h-[100px]">
-        <div className="flex items-center justify-end space-x-3">
+      <CardContent className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 min-h-[100px]">
+        <div className="flex items-center space-x-3">
           <div
             className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center",
+              "w-10 h-10 rounded-full flex items-center justify-center shrink-0",
               statusColor[workflow.status as WorkflowStatus]
             )}
           >
@@ -53,14 +53,14 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
             )}
           </div>
           <div>
-            <h3 className="text-base font-bold text-muted-foreground flex items-center">
+            <h3 className="text-base font-bold text-muted-foreground flex items-center flex-wrap gap-1">
               <TooltipWrapper content={workflow.description!}>
                 <Link href={`/workflow/editor/${workflow.id}`}>
                   {workflow.name}
                 </Link>
               </TooltipWrapper>
               {isDraft && (
-                <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                <span className="px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
                   Draft
                 </span>
               )}
@@ -78,13 +78,13 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
             />
           </div>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-end space-x-2 shrink-0">
           {!isDraft && <RunButton workflowId={workflow.id} />}
           <Link
             href={`/workflow/editor/${workflow.id}`}
             className={cn(
               buttonVariants({ variant: "outline", size: "sm" }),
-              "flex items-center p-4"
+              "flex items-center gap-1"
             )}
           >
             <ShuffleIcon size={16} />
@@ -147,11 +147,12 @@ function LastRunDetails({ workflow }: { workflow: Workflow }) {
 
   const { lastRunAt, lastRunStatus, lastRunId, nextRunAt } = workflow;
   const formattedStartedAt =
-    lastRunAt && formatDistanceToNow(lastRunAt, { addSuffix: true });
+    lastRunAt && formatDistanceToNow(new Date(lastRunAt), { addSuffix: true });
 
-  const nextSchedule = nextRunAt && format(nextRunAt, "yyyy-MM-dd HH:mm");
+  const nextSchedule =
+    nextRunAt && format(new Date(nextRunAt), "yyyy-MM-dd HH:mm");
   const nextScheduleUtc =
-    nextRunAt && formatInTimeZone(nextRunAt, "UTC", "HH:mm");
+    nextRunAt && formatInTimeZone(new Date(nextRunAt), "UTC", "HH:mm");
 
   return (
     <div className="bg-primary/5 px-4 py-1 flex justify-between items-center text-muted-foreground">

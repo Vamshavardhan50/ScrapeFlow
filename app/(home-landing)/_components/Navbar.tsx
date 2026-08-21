@@ -31,7 +31,7 @@ function Navbar() {
         ) : (
           <aside className="h-screen w-full box-border p-5 backdrop-blur-md absolute top-0 left-0 z-50">
             <XIcon onClick={() => setIsMobileOpen(false)} />
-            <div className="mt-5 flex flex-col gap-5 h-full text-center items-center pt-60">
+            <div className="mt-5 flex flex-col gap-5 h-full text-center items-center pt-16">
               {headerRoutes.map((route) =>
                 route?.button ? (
                   <Button
@@ -68,7 +68,7 @@ function Navbar() {
     <header className="px-4 lg:px-6 h-14 flex items-center max-w-screen-xl mx-auto w-full text-primary py-10 sticky top-0 backdrop-blur-sm z-50">
       <Link className="flex items-center justify-center" href="#">
         <ZapIcon className="h-8 w-8" />
-        <span className="ml-2 text-white">Flow Scrape</span>
+        <span className="ml-2 text-white">ScrapeFlow</span>
       </Link>
       <nav className="ml-auto flex gap-4 sm:gap-6 items-center">
         {headerRoutes.map((route) =>

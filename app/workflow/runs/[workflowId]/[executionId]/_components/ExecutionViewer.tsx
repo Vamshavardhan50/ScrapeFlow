@@ -328,7 +328,7 @@ function LogViewer({ logs }: { logs: ExecutionLog[] | undefined }) {
                   width={190}
                   className="text-xs text-muted-foreground p-[2px] pl-4"
                 >
-                  {log.timestamp.toISOString()}
+                  {new Date(log.timestamp).toISOString()}
                 </TableCell>
                 <TableCell
                   width={80}
