@@ -68,14 +68,47 @@ export async function deleteWorkflow(workflowId: string) {
     throw new Error("Unauthenticated");
   }
 
-  await prisma.workflow.delete({
-    where: {
-      userId,
-      id: workflowId,
-    },
+  // Explicitly cascade delete to ensure safety across SQLite and Postgres
+  await prisma.$transaction(async (tx) => {
+    const executions = await tx.workflowExecution.findMany({
+      where: { workflowId, userId },
+      select: { id: true },
+    });
+
+    const executionIds = executions.map((e) => e.id);
+
+    if (executionIds.length > 0) {
+      const phases = await tx.executionPhase.findMany({
+        where: { workflowExecutionId: { in: executionIds } },
+        select: { id: true },
+      });
+      const phaseIds = phases.map((p) => p.id);
+
+      if (phaseIds.length > 0) {
+        await tx.executionLog.deleteMany({
+          where: { executionPhaseId: { in: phaseIds } },
+        });
+      }
+
+      await tx.executionPhase.deleteMany({
+        where: { workflowExecutionId: { in: executionIds } },
+      });
+
+      await tx.workflowExecution.deleteMany({
+        where: { id: { in: executionIds } },
+      });
+    }
+
+    await tx.workflow.delete({
+      where: {
+        userId,
+        id: workflowId,
+      },
+    });
   });
 
   revalidatePath("/workflows");
+  return { success: true };
 }
 
 export async function updateWorkFlow({
@@ -359,3 +392,36 @@ export async function duplicateWorkflow(form: duplicateWorkflowSchemaType) {
 
   redirect("/workflows");
 }
+
+export async function createWorkflowFromTemplate({
+  name,
+  description,
+  definition,
+}: {
+  name: string;
+  description: string;
+  definition: string;
+}) {
+  const { userId } = await auth();
+
+  if (!userId) {
+    throw new Error("Unauthenticated");
+  }
+
+  const result = await prisma.workflow.create({
+    data: {
+      userId,
+      status: WorkflowStatus.DRAFT,
+      name,
+      description,
+      definition,
+    },
+  });
+
+  if (!result) {
+    throw new Error("Failed to create workflow from template");
+  }
+
+  redirect(`/workflow/editor/${result.id}`);
+}
+

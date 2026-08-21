@@ -33,9 +33,10 @@ function DeleteCredentialDialog({ crendentialName, credentialId }: Props) {
     onSuccess: () => {
       toast.success("Credential deleted successfully", { id: credentialId });
       setConfirmText("");
+      setOpen(false);
     },
-    onError: () => {
-      toast.error("Failed to delete credential", { id: credentialId });
+    onError: (err: any) => {
+      toast.error("Failed to delete credential: " + (err.message || "Unknown error"), { id: credentialId });
     },
   });
 

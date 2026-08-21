@@ -1,11 +1,13 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { ZapIcon } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
 function Logo({
-  fontSize = "2xl",
-  iconSize = 20,
+  fontSize = "xl",
+  iconSize = 18,
 }: {
   fontSize?: string;
   iconSize?: number;
@@ -13,19 +15,19 @@ function Logo({
   return (
     <Link
       className={cn(
-        "text-2xl font-extrabold flex items-center gap-2",
-        fontSize
+        "font-extrabold flex items-center gap-2.5 transition-transform hover:scale-[1.02] duration-150",
+        fontSize === "xl" ? "text-xl" : "text-2xl"
       )}
       href="/"
     >
-      <div className="rounded-xl bg-primary p-2">
-        <ZapIcon size={iconSize} className="stroke-white" />
+      <div className="rounded-xl bg-gradient-to-tr from-primary to-orange-400 p-2 shadow-sm shadow-primary/30 flex items-center justify-center">
+        <ZapIcon size={iconSize} className="stroke-white fill-white" />
       </div>
-      <div>
-        <span className="bg-primary bg-clip-text text-transparent">
+      <div className="flex items-center tracking-tight font-sans">
+        <span className="text-primary font-black">
           Scrape
         </span>
-        <span className="text-stone-700 dark:text-stone-300">Flow</span>
+        <span className="text-foreground font-extrabold ml-0.5">Flow</span>
       </div>
     </Link>
   );

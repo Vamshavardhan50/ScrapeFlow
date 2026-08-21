@@ -1,8 +1,10 @@
 import {
+  BookOpenIcon,
   CoinsIcon,
   HomeIcon,
   Layers2Icon,
   ShieldCheckIcon,
+  StoreIcon,
 } from "lucide-react";
 
 export const routes = [
@@ -17,6 +19,11 @@ export const routes = [
     icon: Layers2Icon,
   },
   {
+    href: "/marketplace",
+    label: "Marketplace",
+    icon: StoreIcon,
+  },
+  {
     href: "/credentials",
     label: "Credentials",
     icon: ShieldCheckIcon,
@@ -25,6 +32,11 @@ export const routes = [
     href: "/billing",
     label: "Billing",
     icon: CoinsIcon,
+  },
+  {
+    href: "/docs",
+    label: "Documentation",
+    icon: BookOpenIcon,
   },
 ];
 

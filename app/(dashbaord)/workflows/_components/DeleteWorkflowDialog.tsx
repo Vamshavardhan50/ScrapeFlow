@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { deleteWorkflow } from "@/actions/workflows";
 import { toast } from "sonner";
@@ -37,9 +38,10 @@ function DeleteWorkflowDialog({
     onSuccess: () => {
       toast.success("Workflow deleted successfully", { id: workflowId });
       setConfirmText("");
+      setOpen(false);
     },
-    onError: () => {
-      toast.error("Failed to delete workflow", { id: workflowId });
+    onError: (err: any) => {
+      toast.error("Failed to delete workflow: " + (err.message || "Unknown error"), { id: workflowId });
     },
   });
 
@@ -57,6 +59,7 @@ function DeleteWorkflowDialog({
               <Input
                 value={confirmText}
                 onChange={(e) => setConfirmText(e.target.value)}
+                placeholder={workflowName}
               />
             </div>
           </AlertDialogDescription>
@@ -65,16 +68,17 @@ function DeleteWorkflowDialog({
           <AlertDialogCancel onClick={() => setConfirmText("")}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction
+          <Button
             disabled={confirmText !== workflowName || deleteMutation.isPending}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-            onClick={() => {
+            variant="destructive"
+            onClick={(e) => {
+              e.preventDefault();
               toast.loading("Deleting workflow...", { id: workflowId });
               deleteMutation.mutate(workflowId);
             }}
           >
-            Delete
-          </AlertDialogAction>
+            {deleteMutation.isPending ? "Deleting..." : "Delete"}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
